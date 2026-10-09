@@ -2,6 +2,12 @@ service:
   spec:
     type: NodePort
 
+providers:
+  kubernetesIngress:
+    ingressEndpoint:
+      # kind maps the Traefik NodePorts to the local host.
+      ip: 127.0.0.1
+
 ports:
   web:
     nodePort: 30080
