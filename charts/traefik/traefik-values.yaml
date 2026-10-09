@@ -4,6 +4,9 @@ service:
 
 providers:
   kubernetesIngress:
+    # Use the explicit local IP instead of discovering kind node external IPs.
+    publishedService:
+      enabled: false
     ingressEndpoint:
       # kind maps the Traefik NodePorts to the local host.
       ip: 127.0.0.1
