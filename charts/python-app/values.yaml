@@ -59,10 +59,11 @@ service:
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 
 ingress:
+  annotations:
+    argocd.argoproj.io/ignore-healthcheck: "true"
   enabled: true
   name: python-app-ingress
   className: "traefik"
-  annotations: {}
 
   serviceName: python-app-svc
   servicePort: 5000

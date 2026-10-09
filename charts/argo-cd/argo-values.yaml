@@ -17,7 +17,7 @@ configs:
   cm:
     # Allow Argo CD to observe Deployment/Pod status changes so application
     # health is recalculated after workloads become ready.
-    resource.customizations.ignoreResourceUpdates.all: null
+    resource.customizations.ignoreResourceUpdates.all: ""
   params:
     server.insecure: true
 
