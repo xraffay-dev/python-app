@@ -61,7 +61,7 @@ service:
 ingress:
   enabled: true
   name: python-app-ingress
-  className: "cloud-provider-kind"
+  className: "traefik"
   annotations: {}
 
   serviceName: python-app-svc
