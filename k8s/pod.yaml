@@ -10,4 +10,3 @@ spec:
       image: xraffay/python-app:v2
       ports:
         - containerPort: 5000
-          

@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: python-app-svc
+  name: python-app
 spec:
   selector:
     app: python-app
   ports:
-    - port: 8000
+    - port: 5000
       targetPort: 5000
