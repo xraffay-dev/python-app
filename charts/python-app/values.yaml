@@ -65,7 +65,7 @@ ingress:
   name: python-app-ingress
   className: "traefik"
 
-  serviceName: python-app-svc
+  serviceName: python-app
   servicePort: 5000
 
   hosts:
