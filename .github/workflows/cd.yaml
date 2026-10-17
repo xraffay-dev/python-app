@@ -11,12 +11,11 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: ArgoCD Deploy
-        uses: clowdhaus/argo-cd-action/@main
-        with:
-          command: app sync python-app
-          options: >-
-            --username ${{ vars.ARGOCD_USERNAME }}
-            --password ${{ secrets.ARGOCD_PASSWORD }}
-            --server "argocd.test.com"
-            # --insecure
+        shell: bash
+        run: |
+          argocd login argocd.test.com \
+            --username ${{ vars.ARGOCD_USERNAME }} \
+            --password ${{ secrets.ARGOCD_PASSWORD }} \
+            --insecure \
             --grpc-web
+          argocd app sync python-app
