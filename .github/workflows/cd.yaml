@@ -17,6 +17,6 @@ jobs:
           options: >-
             --username ${{ vars.ARGOCD_USERNAME }}
             --password ${{ secrets.ARGOCD_PASSWORD }}
-            --server ${{ argocd.test.com }}
+            --server "argocd.test.com"
             # --insecure
             --grpc-web
