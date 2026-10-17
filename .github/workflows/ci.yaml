@@ -1,25 +1,50 @@
-name: CI Build Pipeline
+name: CI & CD Pipeline
 
 on:
   push:
     paths:
-        - src/**
+      - 'src/**'
     branches:
       - main
 
 jobs:
-  docker:
+  ci:
+    name: CI Build Pipeline
     runs-on: ubuntu-latest
+
     steps:
+
       - name: Login to Docker Hub
         uses: docker/login-action@v4
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Shorten commit SHA
         run: echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
           push: true
           tags: xraffay/python-app:${{ env.short_sha }}
+
+  cd:
+    name: CD Deploy Pipeline
+    needs: ci
+    runs-on: self-hosted
+
+    steps:
+      - name: ArgoCD Deploy
+        shell: bash
+        env:
+          ARGOCD_USERNAME: ${{ vars.ARGOCD_USERNAME }}
+          ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
+        run: |
+          argocd login argocd.test.com \
+            --username "$ARGOCD_USERNAME" \
+            --password "$ARGOCD_PASSWORD" \
+            --insecure \
+            --grpc-web
+
+          argocd app sync python-app
