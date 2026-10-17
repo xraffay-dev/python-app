@@ -15,7 +15,8 @@ jobs:
         with:
           command: app sync python-app
           options: >-
-            --username ${{ variables.ARGOCD_USERNAME }}
+            --username ${{ vars.ARGOCD_USERNAME }}
             --password ${{ secrets.ARGOCD_PASSWORD }}
-            --server ${{ secrets.ARGOCD_SERVER }}
+            --server ${{ argocd.test.com }}
+            # --insecure
             --grpc-web
