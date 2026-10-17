@@ -38,7 +38,7 @@ jobs:
       - name: Install Argo CD CLI
         shell: bash
         run: |
-          curl -fsSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          curl -fksSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
           sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
           rm argocd-linux-amd64
 
@@ -49,6 +49,7 @@ jobs:
             --username "${{ vars.ARGOCD_USERNAME }}" \
             --password "${{ secrets.ARGOCD_PASSWORD }}" \
             --insecure \
+            # --plaintext \
             --grpc-web
 
           argocd app sync python-app
