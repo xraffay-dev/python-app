@@ -48,9 +48,9 @@ jobs:
           argocd login argocd-server.argocd \
             --username "${{ vars.ARGOCD_USERNAME }}" \
             --password "${{ secrets.ARGOCD_PASSWORD }}" \
-            --insecure \
-            # --plaintext \
+            --plaintext \
             --grpc-web
+
 
           argocd app sync python-app
           argocd app wait python-app --sync --health --timeout 300
