@@ -25,4 +25,6 @@ server:
   ingress:
     enabled: true
     ingressClassName: traefik
-    tls: true
+    tls: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: web
