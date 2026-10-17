@@ -30,21 +30,26 @@ jobs:
           tags: xraffay/python-app:${{ env.short_sha }}
 
   cd:
-    name: CD Deploy Pipeline
     needs: ci
+    name: CD Deploy Pipeline
     runs-on: self-hosted
 
     steps:
+      - name: Install Argo CD CLI
+        shell: bash
+        run: |
+          curl -fsSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+          rm argocd-linux-amd64
+
       - name: ArgoCD Deploy
         shell: bash
-        env:
-          ARGOCD_USERNAME: ${{ vars.ARGOCD_USERNAME }}
-          ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
         run: |
-          argocd login argocd.test.com \
-            --username "$ARGOCD_USERNAME" \
-            --password "$ARGOCD_PASSWORD" \
+          argocd login argocd-server.argocd \
+            --username "${{ vars.ARGOCD_USERNAME }}" \
+            --password "${{ secrets.ARGOCD_PASSWORD }}" \
             --insecure \
             --grpc-web
 
           argocd app sync python-app
+          argocd app wait python-app --sync --health --timeout 300
